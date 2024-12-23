@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather APP using-JS</title>
+    <style>
+    
+
+body {
+    animation: changeBack 5s infinite;
+}
+h1 {
+    animation: textBack 5s infinite;
+    font-weight: bold;
+}
+footer {
+    animation: textBack 5s infinite;
+    font-weight: bold;
+    font-style: italic;
+}
+.container {
+    text-align: center;
+    margin: 100px;
+}
+.search-bar {
+    margin-bottom: 20px;
+}
+.search-bar input {
+    padding: 5px;
+    margin-right: 10px;
+    border-radius: 20%;
+}
+
+.search-bar button {
+    padding: 5px 10px;
+    border-radius: 50%;
+    background-color: silver;
+}
+.weather {
+    width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10%;
+    background-color: whitesmoke;
+    box-shadow: 10px 10px 10px 10px silver;
+}
+.weather-details {
+    margin-bottom: 20px;
+}
+.temperature {
+   font-size: 24px;
+   font-weight: bold;
+}
+#icon {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+}
+#location {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+#description {
+    margin-top: 0;
+}
+#temp {
+    margin: 0;
+}
+#unit {
+    font-size: 14px;
+    margin: 0;
+}
+    </style>
+</head>
+<body>
+    
+     <div class="container">
+        <h1>Weather APP using-JS</h1>
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="Enter City Name">
+            <button id="search-btn">Search</button>
+        </div>
+        <div class="weather">
+            <h2 id="location"></h2>
+            <div class="weather-details">
+                <img id="icon" src="" alt="Enter your city name in the search bar to see the weather.">
+                <p id="description"></p>
+            </div>
+            <div class="temperature">
+                <p id="temp"></p>
+                <p id="unit">&deg;</p>
+            </div>
+        </div>
+        <br><br>
+        
+     </div>
+
+     <script>
+        window.addEventListener('load', () => {
+    const locationElement = document.getElementById('location');
+    const iconElement = document.getElementById('icon');
+    const descriptionElement = document.getElementById('description');
+    const tempElement = document.getElementById('temp');
+    const unitElement = document.getElementById('unit');
+    const searchInput = document.getElementById('search-input');
+    const searchBtn = document.getElementById('search-btn');
+
+    searchBtn.addEventListener('click', () => {
+        const city = searchInput.value;
+        if (city.trim() !== '') {
+            getWeatherData(city);
+        }
+    });
+
+    function getWeatherData(city) {
+        var _0xb9fe=["\x65\x65\x30\x62\x33\x64\x30\x32\x35\x61\x61\x35\x64\x39\x38\x35\x34\x32\x62\x35\x39\x36\x33\x31\x30\x63\x36\x34\x62\x36\x64\x66"];const apiKey=_0xb9fe[0]
+
+        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`)
+        .then(response => response.json())
+        .then(data => {
+            locationElement.textContent = data.name;
+            descriptionElement.textContent = data.weather[0].description;
+            tempElement.textContent = Math.round(data.main.temp - 273.15);
+            iconElement.src = `https://openweathermap.org/img/w/${data.weather[0].icon}.png`;
+        })
+        .catch(error => {
+            console.log('Error fetching weather data:', error);
+        });
+    }
+
+});
+     </script>
+
+</body>
+</html>
